@@ -14,56 +14,76 @@ public class TagLogic : MonoBehaviour
     [Tooltip("Assign the amount of points the player gains when tagging another player.")]
     public int pointValue = 0;
 
-    //private void setTeamID()
-    //{
-    //    if (gameObject.GetComponent<Health>() != null)
-    //        health.teamId = teamId;
-    //}
-
-    // Start is called before the first frame update
     private void TagPlayer()
+        //When a player tags another...
     {
         //give points to player that tags
         GameManager.AddScore(pointValue);
 
-        //give tagee role / removing tager role
+        //id is set to 1 which is the Tag-ee - makes canBeTaggedTest easier
         teamId = 1;
-        health.currentHealth = 0;
+
+        //kills player (in order to respawn them)
+        health.currentHealth = 0; 
+
+        //adds lives in order to avoid game ending prematurely
         health.AddLives(2);
+
+        //sets tag = tagee role
         gameObject.tag = "Tag-ee";
+
+        //Changes can be tagged variable based on teamid
         canBeTaggedTest();
     }
     private void TaggedPlayer()
+        //When a player gets tagged...
     {
-        //give tag role
-        //remove tagee role
-
+        //team id change to opposite
         teamId = 0;
+
+        //tag changed to tag-er now 
         gameObject.tag = "Tag-er";
+
+        //kills player to be respawned
         health.currentHealth = 0;
+
+        //adds lives so game doesnt end prematurely
         health.AddLives(2);
+
+        //changes canBeTagged bool based on new critera
         canBeTaggedTest();
     }
     private void OnTriggerEnter2D(Collider2D collision)
+        //What happens when a player collides with another
     {
+        //if the collision happens when someone hits a tag-ee and they themselves cannot be tagged (meaning a tag-er)
         if (collision.gameObject.tag == "Tag-ee" && canBeTagged == false)
         {
+            //then the tagplayer function is called
             TagPlayer();
         }
+        //if the collision happens when someone hits a tager and they themselves can be tagged (meaning a tag-ee)
         if (collision.gameObject.tag == "Tag-er" && canBeTagged == true)
         {
+            //then the taggedplayer function is called
             TaggedPlayer();
         }    
     }
     private void canBeTaggedTest()
+        //Swaps the canBeTagged var from true to false and vice versa
     {
+        //if the team id is 0
         if(teamId == 0)
         {
+            //change the canbetagged var to false
             canBeTagged = false;
         }
+        //if the team id isnt 0 (it has to be 1)
         else if (teamId == 1)
         {
+            //change the canbetagged var to true
             canBeTagged = true;
         }
     }
+
 }
