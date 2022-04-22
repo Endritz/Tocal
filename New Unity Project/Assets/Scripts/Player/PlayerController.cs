@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 /// <summary>
 /// Class which handles player movement
@@ -8,6 +9,10 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
+
+    PhotonView view;
+
+
     #region Variables
     #region GameObject references
     [Header("Game Object and Component References")]
@@ -159,6 +164,7 @@ public class PlayerController : MonoBehaviour
     {
         SetupRigidbody();
         SetUpInputManager();
+        view = GetComponent<PhotonView>();
     }
 
     /// <summary>
@@ -172,9 +178,12 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void LateUpdate()
     {
-        ProcessInput();
-        HandleSpriteDirection();
-        DetermineState();
+        if (view.IsMine){
+            ProcessInput();
+            HandleSpriteDirection();
+            DetermineState();
+        }
+        
     }
     #endregion
 
