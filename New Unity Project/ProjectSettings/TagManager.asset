@@ -41,6 +41,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BGround
+    uniqueID: 1602813775
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: FGround
+    uniqueID: 3284493525
     locked: 0
