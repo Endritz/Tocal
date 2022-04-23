@@ -13,8 +13,10 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     public void OnClickConnect(){
         if (usernameInput.text.Length >= 1){
+
             PhotonNetwork.NickName = usernameInput.text;
             buttonText.text = "Connecting...";
+            PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.ConnectUsingSettings();
         }
     }
